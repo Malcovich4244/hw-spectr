@@ -1,37 +1,19 @@
-import random
+import os
 
 
-# Функция для генерации случайной буквы
-def random_letter():
-    return chr(random.randint(65, 90))  # ASCII коды заглавных букв
+def display_folder_structure(path, indent=''):
+    if os.path.isfile(path):  # Если путь - файл
+        print(f'{indent + os.path.basename(path)} - {str(os.path.getsize(path))} bytes')  # выводим имя и размер файла
+    else:  # Если путь - папка
+        print(f'{indent + os.path.basename(path)} /')  # выводим имя папки
+        for item in os.listdir(path):  # проходим по всем элементам в папке
+            item_path = os.path.join(path, item)  # получаем полный путь к элементу
+            if os.path.isfile(item_path):  # Если элемент - файл
+                print(f'{indent}  {item} - {str(os.path.getsize(item_path))} bytes')  # выводим имя и размер файла
+            elif os.path.isdir(item_path):  # Если элемент - папка
+                print(f'{indent}  {item}')  # выводим имя папки
+                display_folder_structure(item_path, indent + "    ")  # вызываем рекурсивно эту же функцию для подпапки
 
 
-# Функция для генерации случайной цифры
-def random_digit():
-    return str(random.randint(0, 9))
-
-
-# Функция для генерации случайного знака препинания
-def random_punctuation():
-    punctuation_marks = ['!', '?', '.', ',', ';', ':', '-', '"', "'", ' ']
-    return random.choice(punctuation_marks)
-
-
-# Открываем файл в режиме записи бинарных данных
-with open('random_data.bin', 'wb') as file:
-    for i in range(100):  # Для примера генерируем 100 случайных символов
-        random_choice = random.choice([random_letter, random_digit, random_punctuation])
-        data = random_choice()
-        # Записываем данные в файл
-        file.write(data.encode('utf-8'))
-
-# Открываем файл в режиме чтения бинарных данных
-with open('random_data.bin', 'rb') as file:
-    data = file.read().decode('utf-8')
-    number_of_char = len(data)
-    number_of_word = data.count(' ') + 1
-    number_of_string = data.count('\n') + 1
-
-
-print(f'Данные из файла:\n{data}\n\nСтатистика:\nЧисло символов: {number_of_char}'
-      f'\nЧисло слов: {number_of_word}\nЧисло строк: {number_of_string}')
+folder_path = 'полный/путь/к/папке'  # замените на полный путь к нужной папке
+display_folder_structure(folder_path)  # вызываем функцию для отображения структуры папки
