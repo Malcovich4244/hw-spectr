@@ -1,4 +1,15 @@
+import argparse
 import os
+'''Открываем Проводник, выбираем файл и во вкладке "Главная" нажимаем "Скопировать путь".
+ Нажав на SHIFT , кликаем правой кнопкой мыши. 
+ В выпадающем контекстном меню выбираем "Копировать как путь", после запускаем скрипт командой:
+ python "название скрипта без ковычек" "путь\к\файлу\или\папке" (должен быть с ковычками) '''
+
+# Создаем парсер аргументов с описанием скрипта
+parser = argparse.ArgumentParser(description='Folder address')
+# Добавляем аргумент
+parser.add_argument('folder', type=str, help='Enter the folder address')
+args = parser.parse_args()
 
 
 def display_folder_structure(path, indent=''):
@@ -15,5 +26,4 @@ def display_folder_structure(path, indent=''):
                 display_folder_structure(item_path, indent + "    ")  # вызываем рекурсивно эту же функцию для подпапки
 
 
-folder_path = 'полный/путь/к/папке'  # замените на полный путь к нужной папке
-display_folder_structure(folder_path)  # вызываем функцию для отображения структуры папки
+display_folder_structure(args.folder)  # вызываем функцию для отображения структуры папки
