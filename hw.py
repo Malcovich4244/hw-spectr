@@ -1,7 +1,8 @@
+sample_list = [1, 'hello', True, 42, 'world', False]
 
-years = [i for i in range(1950, 2025)] # генератор списка, годы с 1950 по 2024
+'''Если x - число, то умножаем его на 2, иначе,
+если x - строка, то конвертируем каждый символ в верхний регистр, 
+иначе если x ложно, то возвращается True, иначе False'''
 
-
-# Лямбда функция проверяет, является ли год високосным
-
-print(list(filter(lambda y: y % 4 == 0 or y % 400 == 0 and y % 100 != 0, years)))
+print(list(map(lambda x: x * 2 if type(x) is int else x.upper() if type(x) is str
+               else not x, sample_list)))
